@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原口龍太郎のV2V MC-CDMAポップアニメーション</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", cursive;
+        background-color: #87ceeb;
+        margin: 0;
+        padding: 20px;
+        overflow: hidden;
+      }
+      #animation-container {
+        width: 800px;
+        height: 400px;
+        background-color: #7cfc00;
+        margin: 20px auto;
+        position: relative;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+      .car {
+        width: 100px;
+        height: 60px;
+        position: absolute;
+        transition: all 0.5s;
+      }
+      .message {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 24px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+      .spreading-code {
+        width: 400px;
+        height: 20px;
+        position: absolute;
+        left: 200px;
+        top: 190px;
+        display: flex;
+      }
+      .chip {
+        width: 10px;
+        height: 20px;
+        margin: 0 1px;
+        border-radius: 5px;
+      }
+      button {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 10px;
+        background-color: #ff69b4;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
+      }
+      #explanation {
+        width: 800px;
+        margin: 20px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 18px;
+        text-align: center;
+      }
+      #author {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 14px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="animation-container">
+      <img
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'%3E%3Crect width='80' height='30' x='10' y='20' rx='10' ry='10' fill='%23FF0000'/%3E%3Ccircle cx='25' cy='50' r='10' fill='%23000000'/%3E%3Ccircle cx='75' cy='50' r='10' fill='%23000000'/%3E%3Crect width='60' height='15' x='20' y='10' rx='7' ry='7' fill='%23FFFFFF'/%3E%3C/svg%3E"
+        class="car"
+        id="car1"
+        style="left: 50px; top: 50px"
+      />
+      <img
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='60' viewBox='0 0 100 60'%3E%3Crect width='80' height='30' x='10' y='20' rx='10' ry='10' fill='%230000FF'/%3E%3Ccircle cx='25' cy='50' r='10' fill='%23000000'/%3E%3Ccircle cx='75' cy='50' r='10' fill='%23000000'/%3E%3Crect width='60' height='15' x='20' y='10' rx='7' ry='7' fill='%23FFFFFF'/%3E%3C/svg%3E"
+        class="car"
+        id="car2"
+        style="right: 50px; bottom: 50px"
+      />
+      <div class="message" id="message1"></div>
+      <div class="message" id="message2"></div>
+      <div class="spreading-code" id="spreading-code"></div>
+      <div id="author">作成: 原口龍太郎</div>
+    </div>
+    <div style="text-align: center">
+      <button onclick="runAnimation()">原口式通信開始！</button>
+    </div>
+    <div id="explanation"></div>
+
+    <script>
+      const car1 = document.getElementById("car1");
+      const car2 = document.getElementById("car2");
+      const message1 = document.getElementById("message1");
+      const message2 = document.getElementById("message2");
+      const spreadingCode = document.getElementById("spreading-code");
+      const explanation = document.getElementById("explanation");
+
+      function generateBit() {
+        return Math.random() < 0.5 ? 1 : -1;
+      }
+
+      function generateSpreadingCode(length) {
+        return Array.from({ length }, () => (Math.random() < 0.5 ? 1 : -1));
+      }
+
+      function updateExplanation(text) {
+        explanation.innerHTML = text;
+      }
+
+      async function runAnimation() {
+        const bit = generateBit();
+        const code = generateSpreadingCode(32);
+
+        // 送信車両のメッセージを表示
+        message1.style.backgroundColor = bit === 1 ? "#FF69B4" : "#00CED1";
+        message1.textContent = bit === 1 ? "⚠️" : "✅";
+        message1.style.left = "120px";
+        message1.style.top = "40px";
+        updateExplanation(
+          "原口式通信開始！車1が重要な情報を送信します！ ピンクは警告、水色は安全情報です。"
+        );
+        await new Promise((r) => setTimeout(r, 2000));
+
+        // 拡散符号を表示
+        spreadingCode.innerHTML = code
+          .map(
+            (chip) =>
+              `<div class="chip" style="background-color: ${
+                chip === 1 ? "#FFFF00" : "#FFA500"
+              };"></div>`
+          )
+          .join("");
+        updateExplanation(
+          "原口龍太郎特製の秘密の暗号（拡散符号）でメッセージを隠します。これで他の車に邪魔されずに通信できるよ！"
+        );
+        await new Promise((r) => setTimeout(r, 2000));
+
+        // 拡散処理のアニメーション
+        updateExplanation(
+          "原口式ミキシング！暗号とメッセージをミックス！ これで安全に送信できます。"
+        );
+        for (let i = 0; i < code.length; i++) {
+          spreadingCode.children[i].style.backgroundColor =
+            bit * code[i] === 1 ? "#32CD32" : "#8A2BE2";
+          await new Promise((r) => setTimeout(r, 50));
+        }
+        await new Promise((r) => setTimeout(r, 1000));
+
+        // 送信アニメーション
+        message2.style.backgroundColor = "purple";
+        message2.textContent = "?";
+        message2.style.left = "120px";
+        message2.style.top = "40px";
+        updateExplanation(
+          "原口式暗号メッセージが送信されます。途中で様々な邪魔が入るかもしれません！"
+        );
+        for (let i = 0; i < 10; i++) {
+          message2.style.left = 120 + i * 60 + "px";
+          message2.style.top = 40 + Math.sin(i) * 30 + "px";
+          await new Promise((r) => setTimeout(r, 100));
+        }
+
+        // 受信と逆拡散のアニメーション
+        updateExplanation(
+          "車2が原口式暗号を解読してメッセージを取り出します。"
+        );
+        for (let i = code.length - 1; i >= 0; i--) {
+          spreadingCode.children[i].style.backgroundColor =
+            code[i] === 1 ? "#FFFF00" : "#FFA500";
+          await new Promise((r) => setTimeout(r, 50));
+        }
+
+        // 結果の表示
+        message2.style.backgroundColor = bit === 1 ? "#FF69B4" : "#00CED1";
+        message2.textContent = bit === 1 ? "⚠️" : "✅";
+        message2.style.left = "640px";
+        message2.style.top = "320px";
+        updateExplanation(
+          "やったー！原口式MC-CDMA通信成功！車2に無事メッセージが届きました。これが原口龍太郎考案のMC-CDMAを使った車車間通信だよ！"
+        );
+      }
+    </script>
+  </body>
+</html>
