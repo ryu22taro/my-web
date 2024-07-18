@@ -43,16 +43,6 @@
             background: linear-gradient(135deg, #000000, #1a1a1a);
         }
 
-        .header-content {
-            text-align: center;
-            z-index: 10;
-            background: rgba(26, 26, 26, 0.8);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
         .animated-bg {
             position: absolute;
             top: 0;
@@ -91,6 +81,16 @@
         @keyframes particleAnimation {
             0% { transform: translateY(0) rotate(0deg); }
             100% { transform: translateY(-100vh) rotate(720deg); }
+        }
+
+        .header-content {
+            text-align: center;
+            z-index: 10;
+            background: rgba(26, 26, 26, 0.8);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         h1 {
@@ -245,6 +245,7 @@
             display: inline-block;
             border-radius: 5px;
             transition: all 0.3s;
+            position: relative;
         }
 
         .tree li a:hover, .tree li a:hover+ul li a {
@@ -300,13 +301,198 @@
             box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
         }
 
+        /* Intro Animation Styles */
+        .intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .intro-content {
+            text-align: center;
+        }
+
+        .intro-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .intro-subtitle {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+        }
+
+        .intro-animation .car {
+            width: 80px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .intro-animation .car::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            width: 50px;
+            height: 25px;
+            background-color: var(--primary-color);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .intro-animation .signal {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: signalPulse 2s infinite;
+        }
+
+        @keyframes signalPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+        }
+
+        /* Road Animation Styles */
+        .road-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            margin-top: 2rem;
+            background-color: #333;
+            perspective: 1000px;
+        }
+
+        .road {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                #666 0px,
+                #666 10px,
+                #999 10px,
+                #999 20px
+            );
+            animation: moveRoad 5s linear infinite;
+            transform: rotateX(60deg);
+        }
+
+        .lane-divider {
+            position: absolute;
+            width: 200%;
+            height: 2px;
+            background-color: #fff;
+            top: 50%;
+            transform: translateY(-50%) rotateX(60deg);
+        }
+
+        @keyframes moveRoad {
+            0% { transform: translateX(0) rotateX(60deg); }
+            100% { transform: translateX(-50%) rotateX(60deg); }
+        }
+
+        .car {
+            position: absolute;
+            bottom: 20px;
+            width: 80px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            animation: moveCar 10s linear infinite;
+        }
+
+        .car::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            width: 50px;
+            height: 25px;
+            background-color: var(--primary-color);
+            border-radius: 10px 10px 0 0;
+        }
+
+        @keyframes moveCar {
+            0% { left: -100px; }
+            100% { left: calc(100% + 100px); }
+        }
+
+        .code {
+            position: absolute;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            animation: moveCode 10s linear infinite;
+            text-shadow: 0 0 5px var(--accent-color);
+        }
+
+        @keyframes moveCode {
+            0% { left: 100%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: -100%; opacity: 0; }
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .container {
+                padding:.container {
                 padding: 1rem;
             }
 
             h1 {
                 font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
             }
 
             .slide {
@@ -321,13 +507,77 @@
                 font-size: 0.8rem;
                 padding: 5px 10px;
             }
+
+            .road-container {
+                height: 200px;
+            }
+
+            .car {
+                width: 60px;
+                height: 30px;
+            }
+
+            .car::before {
+                top: -10px;
+                left: 10px;
+                width: 40px;
+                height: 20px;
+            }
+
+            .code {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .author {
+                font-size: 0.8rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .road-container {
+                height: 150px;
+            }
+
+            .car {
+                width: 40px;
+                height: 20px;
+            }
+
+            .car::before {
+                top: -7px;
+                left: 7px;
+                width: 26px;
+                height: 14px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="intro-animation">
+        <div class="intro-content">
+            <h2 class="intro-title">Ryutaro Haraguchi</h2>
+            <p class="intro-subtitle">Exploring Next-Generation V2V Communication</p>
+            <div class="car">
+                <div class="signal"></div>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="animated-bg"></div>
-        <div class="particles" id="particles"></div>
+        <div id="particles" class="particles"></div>
         <div class="header-content">
             <h1>Next-Generation V2V Communication Research</h1>
             <p class="subtitle">DS-CDMA、MC-CDMA、OFDM、MIMOの活用によるマルチパス環境下での最適方式の解明</p>
@@ -351,19 +601,19 @@
                 <div class="tree">
                     <ul>
                         <li>
-                            <a href="#">次世代車車間通信の探求</a>
+                            <a href="#" data-tooltip="Exploring the future of V2V communication">次世代車車間通信の探求</a>
                             <ul>
                                 <li>
-                                    <a href="#">技術比較・分析</a>
+                                    <a href="#" data-tooltip="Comparative analysis of technologies">技術比較・分析</a>
                                     <ul>
-                                        <li><a href="#">シミュレーション環境構築</a></li>
-                                        <li><a href="#">符号割り当て影響分析</a></li>
-                                        <li><a href="#">隠れ端末問題対策</a></li>
-                                        <li><a href="#">MIMO最適化</a></li>
+                                        <li><a href="#" data-tooltip="Building simulation environments">シミュレーション環境構築</a></li>
+                                        <li><a href="#" data-tooltip="Analyzing code assignment impact">符号割り当て影響分析</a></li>
+                                        <li><a href="#" data-tooltip="Addressing hidden terminal problems">隠れ端末問題対策</a></li>
+                                        <li><a href="#" data-tooltip="Optimizing MIMO for V2V">MIMO最適化</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">マルチパス環境評価</a></li>
-                                <li><a href="#">システム設計提言</a></li>
+                                <li><a href="#" data-tooltip="Evaluating performance in various environments">マルチパス環境評価</a></li>
+                                <li><a href="#" data-tooltip="Proposing next-gen system designs">システム設計提言</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -407,12 +657,229 @@
             </ul>
         </div>
 
+        <div class="slide">
+            <h2>Road Code Assignment Animation</h2>
+            <div class="road-container">
+                <div class="road"></div>
+                <div class="lane-divider"></div>
+                <div class="car" style="bottom: 20px;"></div>
+                <div class="car" style="bottom: 80px;"></div>
+                <div class="car" style="bottom: 140px;"></div>
+                <div class="car" style="bottom: 200px;"></div>
+                <div class="code" style="top: 20%;">DS-CDMA</div>
+                <div class="code" style="top: 40%;">MC-CDMA</div>
+                <div class="code" style="top: 60%;">OFDM</div>
+                <div class="code" style="top: 80%;">MIMO</div>
+            </div>
+        </div>
+
         <div class="navigation">
             <button id="prevBtn">PREV</button>
             <button id="nextBtn">NEXT</button>
         </div>
     </div>
 
+    <div class="tooltip"></div>
+
     <script>
-        // パーティクルアニメーション
-        const
+        // Intro Animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const introAnimation = document.querySelector('.intro-animation');
+            setTimeout(() => {
+                introAnimation.style.opacity = '0';
+                setTimeout(() => {
+                    introAnimation.style.display = 'none';
+                }, 1000);
+            }, 3000);
+        });
+
+        // Particle Animation
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.width = `${Math.random() * 3 + 1}px`;
+            particle.style.height = particle.style.width;
+            particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Slide Navigation
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides[currentSlide].style.display = 'none';
+            slides[index].style.display = 'block';
+            currentSlide = index;
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            showSlide((currentSlide + 1) % slides.length);
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            showSlide((currentSlide - 1 + slides.length) % slides.length);
+        });
+
+        // Initial display
+        showSlide(0);
+
+        // Road Code Assignment Animation
+        const codes = document.querySelectorAll('.code');
+        codes.forEach((code, index) => {
+            code.style.animationDelay = `${index * 2.5}s`;
+        });
+
+        // Car Animation
+        const cars = document.querySelectorAll('.car');
+        cars.forEach((car, index) => {
+            car.style.animationDelay = `${index * 2.5}s`;
+        });
+
+        // Tooltip Functionality
+        const tooltip = document.querySelector('.tooltip');
+        const treeItems = document.querySelectorAll('.tree a');
+
+        treeItems.forEach(item => {
+            item.addEventListener('mouseenter', (e) => {
+                const tooltipText = e.target.getAttribute('data-tooltip');
+                tooltip.textContent = tooltipText;
+                tooltip.style.opacity = '1';
+                tooltip.style.left = `${e.pageX + 10}px`;
+                tooltip.style.top = `${e.pageY + 10}px`;
+            });
+
+            item.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+            });
+
+            item.addEventListener('mousemove', (e) => {
+                tooltip.style.left = `${e.pageX + 10}px`;
+                tooltip.style.top = `${e.pageY + 10}px`;
+            });
+        });
+
+        // Responsive Design Adjustment
+        function adjustDesign() {
+            const windowWidth = window.innerWidth;
+            const fontSize = windowWidth < 768 ? '12px' : '16px';
+            document.documentElement.style.fontSize = fontSize;
+
+            const roadContainer = document.querySelector('.road-container');
+            roadContainer.style.height = windowWidth < 768 ? '200px' : '300px';
+
+            const carSize = windowWidth < 768 ? 60 : 80;
+            cars.forEach(car => {
+                car.style.width = `${carSize}px`;
+                car.style.height = `${carSize / 2}px`;
+            });
+        }
+
+        window.addEventListener('resize', adjustDesign);
+        adjustDesign();
+    </script>
+<script>
+        // Performance optimization
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const debouncedAdjustDesign = debounce(adjustDesign, 250);
+        window.addEventListener('resize', debouncedAdjustDesign);
+
+        // Enhanced interactivity
+        const researchTopics = [
+            { name: 'DS-CDMA', description: 'Direct Sequence Code Division Multiple Access' },
+            { name: 'MC-CDMA', description: 'Multi-Carrier Code Division Multiple Access' },
+            { name: 'OFDM', description: 'Orthogonal Frequency-Division Multiplexing' },
+            { name: 'MIMO', description: 'Multiple-Input Multiple-Output' }
+        ];
+
+        const codeElements = document.querySelectorAll('.code');
+        codeElements.forEach((codeElement, index) => {
+            codeElement.addEventListener('mouseenter', () => {
+                const topic = researchTopics[index];
+                tooltip.textContent = `${topic.name}: ${topic.description}`;
+                tooltip.style.opacity = '1';
+                tooltip.style.left = `${codeElement.getBoundingClientRect().right + 10}px`;
+                tooltip.style.top = `${codeElement.getBoundingClientRect().top}px`;
+            });
+
+            codeElement.addEventListener('mouseleave', () => {
+                tooltip.style.opacity = '0';
+            });
+        });
+
+        // Dynamic content loading
+        function loadContent(slideIndex) {
+            // Simulating content loading
+            setTimeout(() => {
+                console.log(`Content for slide ${slideIndex} loaded`);
+            }, 500);
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            const nextSlide = (currentSlide + 1) % slides.length;
+            showSlide(nextSlide);
+            loadContent(nextSlide);
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            const prevSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prevSlide);
+            loadContent(prevSlide);
+        });
+
+        // Initial content load
+        loadContent(0);
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Lazy loading images (if any)
+        document.addEventListener("DOMContentLoaded", function() {
+            var lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.remove("lazy");
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            }
+        });
+
+        // Add more interactivity or animations here as needed
+    </script>
+</body>
+</html>
